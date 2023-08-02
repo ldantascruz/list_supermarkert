@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:list_supermarkert/data/product_inherited.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:list_supermarkert/data/product_dao.dart';
+import 'package:list_supermarkert/screens/product.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({
@@ -46,7 +46,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 controller: nameController,
                 validator: (value) =>
                     valueValidator(value) ? null : 'Insira o nome do produto',
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -99,19 +99,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ProductInherited.of(widget.productContext).newProduct(
-                      name: nameController.text,
-                      quantity: int.parse(quantityController.text),
-                      unityValue: double.parse(unityValueController.text),
+                    ProductDao().save(Product(
+                        name: nameController.text,
+                        quantity: int.parse(quantityController.text),
+                        unityValue: double.parse(unityValueController.text)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Criando um novo produto'),
+                      ),
                     );
-                    Navigator.pop(
-                      context,
-                      {
-                        'name': nameController.text,
-                        'quantity': quantityController.text,
-                        'unityValue': unityValueController.text,
-                      },
-                    );
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text('Adicionar'),

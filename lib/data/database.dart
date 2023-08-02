@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:list_supermarkert/data/product_dao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
